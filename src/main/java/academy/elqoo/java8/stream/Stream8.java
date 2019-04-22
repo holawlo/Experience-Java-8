@@ -1,10 +1,7 @@
 package academy.elqoo.java8.stream;
 
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -69,7 +66,11 @@ public class Stream8 {
     }
 
     public static List<String> getDistinctLetters(List<String> names){
-        throw new NotImplementedException();
+        return names.stream()
+                .map(n -> n.split(""))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
 
@@ -150,7 +151,11 @@ public class Stream8 {
     }
 
     public static List<Integer> generateFirst10PrimeNumbers(){
-        return new
+        return IntStream.iterate(2, i -> i + 1)
+                .filter(Stream8::isPrime)
+                .limit(10)
+                .boxed()
+                .collect(Collectors.toList());
     }
 
     public static boolean isPrime(int number) {
@@ -158,7 +163,8 @@ public class Stream8 {
     }
 
     public static List<Integer> generate10RandomNumbers(){
-        return new Random().ints(10)
+        return IntStream.generate(() -> new Random().nextInt())
+                .limit(10)
                 .boxed()
                 .collect(Collectors.toList());
     }
